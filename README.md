@@ -21,3 +21,6 @@ Files were first included in snapshot [11w49a](https://web.archive.org/web/20120
    - downloaded from [http://czyborra.com/unifont/updates/unifont-5.1.20080914/](https://web.archive.org/web/20211206234649/http://czyborra.com/unifont/updates/unifont-5.1.20080914/)
 - `/hex` - copy of `/unifont-5.1.20080914/font/precompiled/unifontfull.hex` with reconstructed changes applied
 - `/png` - rendering of current contents of `/hex/unifont.hex` (for purposes of visualisation of differences)
+
+## Changes
+- Filtered out Private Use Area (PUA) characters (pattern `FFB9C5EDD5D5D5D5D5D5D5D5EDB991FF`)
