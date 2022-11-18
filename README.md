@@ -24,3 +24,4 @@ Files were first included in snapshot [11w49a](https://web.archive.org/web/20120
 
 ## Changes
 - Filtered out Private Use Area (PUA) characters (pattern `FFB9C5EDD5D5D5D5D5D5D5D5EDB991FF`)
+- Filtered out placeholder glyphs (pattern: `00542A542A542A542A542A542A542A00`), except for U+ABXX range
