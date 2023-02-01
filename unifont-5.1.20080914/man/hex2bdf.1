@@ -1,0 +1,44 @@
+.TH HEX2BDF 1 "2008 Jul 06"
+.SH NAME
+hex2bdf \- Convert a GNU Unifont .hex file into a BDF font.
+.SH SYNOPSIS
+.br
+.B hex2bdf < input_font.hex > output_font.bdf
+.SH DESCRIPTION
+.B hex2bdf
+reads a sorted GNU Unifont .hex file (sorted with the Unix
+.B sort
+utility) from stdin and writes a BDF version of the font
+to stdout.
+.PP
+.SH FILES
+.TP 15
+*.hex GNU Unifont font files
+.SH SEE ALSO
+.BR bdfimplode (1),
+.BR hex2bdf-split (1),
+.BR hex2sfd (1),
+.BR hexbraille (1),
+.BR hexdraw (1),
+.BR hexmerge (1),
+.BR johab2ucs2 (1),
+.BR unibmp2hex (1),
+.BR unicoverage (1),
+.BR unidup (1),
+.BR unihex2bmp (1),
+.BR unipagecount (1),
+.BR uniunmask (1)
+.SH AUTHOR
+.B hex2bdf
+was written by Roman Czyborra.
+.SH LICENSE
+.B hex2bdf
+is Copyright \(co 1998 Roman Czyborra, and is released under the following
+terms (taken from http://czyborra.com/):
+.PP
+"All of my works you find here are freeware. You may freely copy, use, quote,
+modify or redistribute them as long as you properly attribute my contribution
+and have given a quick thought about whether Roman might perhaps be interested
+to read what you did with his stuff. Horizontal rules don't apply."
+.SH BUGS
+No known bugs exist.

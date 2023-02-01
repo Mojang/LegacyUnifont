@@ -1,0 +1,62 @@
+.TH HEX2BDF-SPLIT 1 "2008 Jul 06"
+.SH NAME
+hex2bdf-split \- Convert a GNU Unifont .hex file into single-width BDF fonts.
+.SH SYNOPSIS
+.br
+.B hex2bdf-split n < input_font.hex > halfwidth_output_font.bdf
+.br
+.B hex2bdf-split y < input_font.hex > fullwidth_output_font.bdf
+.SH DESCRIPTION
+.B hex2bdf-split
+reads a sorted GNU Unifont .hex file (sorted with the Unix
+.B sort
+utility) from stdin and writes a BDF version of the font
+to stdout.  This utility was adapted from the original hex2bdf
+script to accomodate charcell behavior in older X11 implementations.
+It is present for historical reasons, but will probably be removed
+in a future distribution.  Dependency on this program is discouraged.
+The main software application written to use the GNU Unifont, the
+international editor Yudit, does not need a split font.  In addition,
+the GNU Unifont now has a TrueType version that makes most other use
+of the BDF version obsolete.
+.PP
+.B hex2bdf-split
+takes one argument: "y" or "n".  If "n" is specified, the output
+font is set to half-width (8 pixels wide) and "-h-" (for half-width)
+appears as the X Logical Font Descriptor (XLFD) ADD_STYLE_NAME value.
+If "y" is specified, the output font is set to full-width (16 pixels wide),
+and "-f-" (for full-width) appears as the X Logical Font Descriptor (XLFD)
+ADD_STYLE_NAME value.
+.SH FILES
+.TP 15
+*.hex GNU Unifont font files
+.SH SEE ALSO
+.BR bdfimplode (1),
+.BR hex2bdf (1),
+.BR hex2sfd (1),
+.BR hexbraille (1),
+.BR hexdraw (1),
+.BR hexmerge (1),
+.BR johab2ucs2 (1),
+.BR unibmp2hex (1),
+.BR unicoverage (1),
+.BR unidup (1),
+.BR unihex2bmp (1),
+.BR unipagecount (1),
+.BR uniunmask (1)
+.SH AUTHOR
+.B hex2bdf-split
+was written by David Starner, based upon the original
+.B hex2bdf
+Perl script by Roman Czyborra.
+.SH LICENSE
+.B hex2bdf-split
+is Copyright \(co 1999 David Starner, and is released under the following
+terms (taken from http://czyborra.com/):
+.PP
+"All of my works you find here are freeware. You may freely copy, use, quote,
+modify or redistribute them as long as you properly attribute my contribution
+and have given a quick thought about whether Roman might perhaps be interested
+to read what you did with his stuff. Horizontal rules don't apply."
+.SH BUGS
+No known bugs exist.

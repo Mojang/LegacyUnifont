@@ -1,0 +1,58 @@
+Files in This Directory
+-----------------------
+blanks.hex        Filler glyphs for all unassigned code points in the BMP
+masks.hex         Masks to XOR out combining circles, etc., in final font
+rc-base.hex       Glyphs common to all font builds
+rc-cjk.hex        Roman Czyborra's original CJK glyphs (with some additions)
+rc-hangul.hex     Hangul Syllables glyphs
+rc-priv.hex       Private Use glyphs
+substitutes.hex   Substitutes for glyphs in font .hex files, for final font
+wqy-cjk.hex       Wen Quan Yi CJK glyphs (with some additions)
+
+An output font is made by combining these files (which must
+therefore not have duplicate code points among themselves):
+
+     blanks.hex rc-base.hex rc-hangul.hex rc-priv.hex
+
+Also, either rc-cjk.hex or wqy-cjk.hex is added to produce the
+final font.  Therefore, the code points defined in rc-cjk.hex
+and wqy-cjk.hex are the same (except that wqy-cjk.hex has full
+coverage of the Unicode Basic Multilingual Plane CJK ideographs
+and rc-cjk.hex does not).  The rc-cjk.hex file preserves the
+original set of CJK ideographs used by Roman Czyborra.  The
+Wen Quan Yi CJK ideographs are in many cases cleaner (far fewer
+solid black boxes in the ideographs).  This makes them easier
+to read.
+
+The files rc-base.hex, rc-hangul.hex, rc-priv.hex, rc-cjk.hex,
+and wqy-cjk.hex contain whole divisions of blocks of 256 code
+points with one exception: the half-block U+2E00..U+2E7F is 
+in rc-base.hex, while the half-block U+2E80..U+2EFF is in both
+rc-cjk.hex and wqy-cjk.hex.  This division might change in the
+future so that all glyph files contain entries in 256 code point
+blocks.  The division currently exists because U+2E00..U+2E7F
+contain Western glyphs, and U+2E80..U+2EFF contain CJK glyphs.
+
+The masks.hex and substitutes.hex files are special files used
+by uniunmask to convert a preliminary font to a final font
+suitable for text.  This allows an original font to contain
+special glyphs for illustration purposes (for example, combining
+circles) that will be removed from the final font.
+
+If a glyph in substitutes.hex has no hex bitmap after the colon,
+that glyph is removed from the final font; this technique is
+used to provide illustrations for noncharacters and different
+types of spaces in the "reference" (full) font, with no visible
+glyph in the final font.  The width of the replacement glyph
+in substitutes.hex is the width that the final glyph will have.
+For example, a space code point can have a 16x16 glyph in the
+reference font, and be replaced with 32 zeroes in the final
+font to become an 8 pixel wide space.
+
+If a glyph exists in both substitutes.hex and masks.hex, the
+entry in substitutes.hex overrides the entry in masks.hex.
+
+The uniunmask program will expect masks.hex and substitutes.hex
+to reside in the current working directory from which uniunmask
+is invoked.
+

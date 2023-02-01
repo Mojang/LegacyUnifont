@@ -1,0 +1,69 @@
+#!/usr/bin/perl
+
+# Changed output font name from "-gnu-fixed-*" to "-gnu-unifont-*"
+
+$double = shift(ARGV) =~ /^(y(es)?|t(rue)|1)/i;
+
+if ($double) {
+  while (<>) { $glyph{$1} = $2 if /(....):([0-9A-Fa-f]{64})\n/; }
+  $boxwidth = 16;
+  $halffull = 'f';
+  $defaultchar = 0xFF0A; # FULLWIDTH ASTERISK
+}
+else {
+  while (<>) { $glyph{$1} = $2 if /(....):([0-9A-Fa-f]{32})\n/; }
+  $boxwidth = 8;
+  $halffull = 'h';
+  $defaultchar = 0xFFFD;
+}
+@chars = sort keys %glyph; $[ = 1;
+# dbmopen (%charname, "/usr/share/unicode/unidata/charname.db", 0);
+
+print <<EOF;
+STARTFONT 2.1
+FONT -gnu-unifont-medium-r-normal-$halffull-$boxwidth-160-75-75-c-80-iso10646-1
+SIZE 16 75 75
+FONTBOUNDINGBOX $boxwidth 16 0 -2
+STARTPROPERTIES 18
+FONTNAME_REGISTRY ""
+FOUNDRY "gnu"
+FAMILY_NAME "fixed"
+WEIGHT_NAME "medium"
+SLANT "r"
+SETWIDTH_NAME "normal"
+ADD_STYLE_NAME "$halffull"
+PIXEL_SIZE 16
+POINT_SIZE 160
+RESOLUTION_X 75
+RESOLUTION_Y 75
+SPACING "c"
+AVERAGE_WIDTH 80
+CHARSET_REGISTRY "iso10646"
+CHARSET_ENCODING "1"
+DEFAULT_CHAR $defaultchar
+FONT_ASCENT 14
+FONT_DESCENT 2
+ENDPROPERTIES
+CHARS $#chars
+EOF
+
+foreach $character (@chars)
+{
+	$encoding = hex($character); $glyph = $glyph{$character};
+	$width = length ($glyph) > 32 ? 2 : 1;
+	$dwidth = $width * 8; $swidth= $width * 500;
+	$glyph =~ s/((..){$width})/\n$1/g;
+	$character = "$character $charname"
+	    if $charname = $charname{pack("n",hex($character))};
+
+	print "STARTCHAR U+$character
+ENCODING $encoding
+SWIDTH $swidth 0
+DWIDTH $dwidth 0
+BBX $dwidth 16 0 -2
+BITMAP $glyph
+ENDCHAR\n";
+}
+
+print "ENDFONT\n";
+

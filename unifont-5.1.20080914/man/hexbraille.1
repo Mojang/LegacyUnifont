@@ -1,0 +1,43 @@
+.TH HEXBRAILLE 1 "2008 Jul 06"
+.SH NAME
+hexbraille \- Algorithmically generate the Unicode Braille range (U+28xx)
+.SH SYNOPSIS
+.br
+.B hexbraille > output_font.hex
+.SH DESCRIPTION
+.B hexbraille
+generates a GNU Unifont .hex format file (written on stdout) containing
+the Braille dot patterns in the Unicode range U+2800..U+28FF.
+.PP
+.SH FILES
+.TP 15
+braille.hex output font files
+.SH SEE ALSO
+.BR bdfimplode (1),
+.BR hex2bdf (1),
+.BR hex2bdf-split (1),
+.BR hex2sfd (1),
+.BR hexdraw (1),
+.BR hexmerge (1),
+.BR johab2ucs2 (1),
+.BR unibmp2hex (1),
+.BR unicoverage (1),
+.BR unidup (1),
+.BR unihex2bmp (1),
+.BR unipagecount (1),
+.BR uniunmask (1)
+.SH AUTHOR
+.B hexbraille
+was written by Roman Czyborra, who named this script "braille.pl".
+In 2003, Roman incorporated a bug fix from Dominique at unruh.de.
+.SH LICENSE
+.B hexbraille
+is Copyright \(co 1998 Roman Czyborra, and is released under the following
+terms (taken from http://czyborra.com):
+.PP
+"All of my works you find here are freeware. You may freely copy, use, quote,
+modify or redistribute them as long as you properly attribute my contribution
+and have given a quick thought about whether Roman might perhaps be interested
+to read what you did with his stuff. Horizontal rules don't apply."
+.SH BUGS
+No known bugs exist.

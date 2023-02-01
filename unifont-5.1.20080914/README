@@ -1,0 +1,332 @@
+
+Subject: Unifont archive version 1:5.1.20080820
+
+
+OVERVIEW
+--------
+The Unifont is a dual-width (8x16/16x16) bitmap font, designed to provide
+coverage for all of Unicode Plane 0, the Basic Multilingual Plane (BMP).
+This version has a glyph for each visible code point in the Unicode 5.1
+Basic Multilingual Plane.
+
+Note that this version of the Unifont only provides a single glyph
+for each character, making it impossible to handle any language that
+needs context-dependent character shaping well. It is supplied in the
+form of a hex file, with a converter to convert it to bdf. See
+http://czyborra.com/unifont/ or http://unifoundry.com/unifont.html
+for more information.
+
+This is the unifoundry.com collection of utilities for the GNU
+Unifont, assembled by Paul Hardy with the encouragement of the
+font's creator, Roman Czyborra.  This archive contains the following
+directories:
+
+     dat       Reference versions of data files
+     font      All the font information
+     Makefile  The "make" file
+     man       Unix man pages
+     README    This file
+     src       Source programs, in Perl and C
+
+The original version of this README file was written by David Starner
+and modified by Paul Hardy in 2008.
+
+
+src/ AUTHORS
+------------
+Right now, all the Perl files in the src directory except "hex2sfd"
+were written by Roman Czyborra (or in the case of johab2ucs2, by
+Jungshik Shin, who then gave it to Roman).  Roman originally named
+the "src/hexbraille" script as simply "braille"; Paul Hardy thought
+there was too great a chance of a conflict with other utilities,
+and so renamed it.  The "hex2bdf-split" Perl script in the source
+directory is an adaptation of Roman's "hex2bdf" script that
+David Starner wrote in 1999.
+
+Luis Gonzalez Miranda wrote the original "hex2sfd" Perl script,
+as well as a "howto-build.sh" shell script that Paul Hardy converted
+into "./font/ttfsrc/Makefile".
+
+All the C programs were written by Paul Hardy.
+
+All Makefiles in this distribution were originally written by
+Paul Hardy, and groomed for Debian by Anthony Fok.
+
+
+unifont AUTHORS
+---------------
+Roman Czyborra created the original GNU Unifont, including the
+.hex format.  For greater detail, see the HISTORY section below.
+
+David Starner aggregated many glyphs contributed by others and
+built these into earlier unifont releases.
+
+Qianqian Fang began his Wen Quan Yi fonts in 2004; most of the
+almost 30,000 CJK ideographs in the latest unifont were taken
+from Wen Quan Yi with permission of Qianqian Fang.  The glyphs
+in "./font/hexsrc/wqy-cjk.hex" are for the most part Qianqian
+Fang's unibit and 12pt Wen Quan Yi glyphs.
+
+Changwoo Ryu created the 11,172 thick-stroke Hangul Syllables glyphs
+using thin-stroke glyphs from the xfonts-baekmuk Debian package, in
+the file unifont.bdf in the Debian bf-utf-source package.  The fonts
+in the xfonts-baekmuk Debian package were created by Jeong-Hwan Kim.
+Replacing the thick-stroke Hangul glyphs was a desire expressed by
+Roman Czyborra for years.
+
+Paul Hardy merged Qianqian Fang's unibit and Wen Quan Yi glyphs
+into the GNU Unifont (with lots of help and enthusiasm from Qianqian
+Fang), copied the Hangul Syllables glyphs from Changwoo Ryu's copy
+of unifont.bdf, drew about 8,500 more glyphs, and replaced the
+existing Tibetan glyphs with new ones contributed by Rich Felker.
+
+
+LICENSE
+-------
+Roman Czyborra released his work (Perl scripts and font .hex files)
+under the following terms:
+
+     All of my works you find here are freeware. You may
+     freely copy, use, quote, modify or redistribute them
+     as long as you properly attribute my contribution and
+     have given a quick thought about whether Roman might
+     perhaps be interested to read what you did with his
+     stuff. Horizontal rules don't apply.
+
+David Starner released what in this package is named "hex2bdf-split"
+under the same license as Roman Czyborra's work.
+
+License for all of Paul Hardy's work (except "johab2ucs2" and
+"blanks.hex", mentioned separately), Makefile and debian/ mods
+by Anthony Fok, and modified software from Luis Gonzalez Miranda
+(with permission granted to Paul Hardy):
+
+     These are released under the terms of the GNU General Public
+     License version 2, or (at your option) a later version.
+
+License for Fonts:
+
+     Any fonts using glyphs from the "wqy-cjk.hex" file (including
+     the default TrueType font) are bound by the terms of the Wen
+     Quan Yi font license.  Those fonts are released under the terms
+     of the GNU General Public License (GPL) versionn 2, with the
+     exception that embedding the font in a document does not by
+     itself bind that document to the terms of the GNU GPL.
+
+     Any fonts that do not use glyphs from the "wqy-cjk.hex" file
+     fall under the above "License for all of Roman Czyborra's work".
+
+     The fonts in "./font/precompiled" do use wqy-cjk.hex, and so
+     are licensed under the GNU GPL version 2, with the exception
+     that embedding the font in a document does not in itself bind
+     that document to the terms of the GNU GPL.  The following
+     paragraphs explaining the exception is taken from the Wen
+     Quan Yi font distribution:
+
+          ** GPL v2.0 license with font embedding exception:
+
+          As a special exception, if you create a document which
+          uses this font, and embed this font or unaltered portions
+          of this font into the document, this font does not by
+          itself cause the resulting document to be covered by
+          the GNU General Public License. This exception does not
+          however invalidate any other reasons why the document
+          might be covered by the GNU General Public License.
+          If you modify this font, you may extend this exception
+          to your version of the font, but you are not obligated
+          to do so. If you do not wish to do so, delete this
+          exception statement from your version.
+
+License for "blanks.hex":
+
+     There is one exception to the above rules: Paul Hardy earlier
+     released the "blanks.hex" file into the public domain.
+
+
+HISTORY
+-------
+Roman Czyborra <roman@czybora.com> began the GNU Unifont in 1998
+as a low quality font to provide a glyph for every Unicode character
+in the Basic Multilingual Plane.  He realized that no one font at
+the time had complete coverage of the Unicode BMP.  Czyborra.com still
+has several cool tools for the unifont not included here.
+
+Since Roman Czyborra was unable to maintain the Unifont for a while,
+and many patches existed on gnu-unifont@groups.yahoo.com
+(http://groups.yahoo.com/group/gnu-unifont), David Starner
+<dstarner98@aasaa.ofe.org> decided to make a new release extending the
+Unifont with many characters in 1999.  That was the foundation of earlier
+GNU Unifont releases in Debian.
+
+By 2004, work had stopped on the GNU Unifont.  Qianqian Fang wanted to
+create a high-quality Chinese Unicode font in 2004.  He began by copying
+the GNU Unifont.  He replaced its Latin glyphs with another X11 font.
+He replaced the existing main CJK ideographs with a higher quality font
+that the People's Republic of China had placed in the public domain.
+The new CJK glyphs in the ranges U+3400..U+4DB5 and U+4E00..U+9FA5
+were developed from the Chinese National Standard GB19966-2005.
+
+Qianqian named this new font "unibit", and released it under the terms
+of the GNU General Public License (GPL) version 2, with the exception that
+embedding his font in a document did not by itself bind that document
+to the terms of the GNU GPL.
+
+Today the Wen Quan Yi font collection includes hand-drawn CJK ideographs
+in 9pt, 10pt, 11pt, and 12pt as well as a vector font.  The 12pt type
+has glyphs the same size as the GNU Unifont, except it adds two more
+pixels of leading (blank space) below each line.  This makes CJK easier
+to read.  For these reasons, Wen Quan Yi is recommended over the GNU Unifont
+for anyone planning to primarily use CJK ideographs.
+
+See http://wqy.sourceforge.net/cgi-bin/enindex.cgi (English) or
+http://wenq.org (Chinese) for more information on Wen Quan Yi.
+
+In 2006, the GNU Unifont package was orphaned in Debian.
+
+In late 2007, Paul Hardy became interested in adding to the GNU Unifont.
+He wrote a couple of programs to convert GNU Unifont .hex files to and
+from bitmap images for easy editing with any graphics software.  He began
+by combining the latest glyphs available for the GNU Unifont.  This
+starting point was posted at http://czyborra.com as the 2007-12-31 version
+of unifont.hex.  Shortly after that, Roman Czyborra's website went down.
+Paul Hardy then started posting complete copies of GNU Unifont on his
+website, "http://unifoundry.com/unifont.html".
+
+Roman Czyborra encouraged Paul Hardy to continue this work on GNU Unifont.
+
+In early 2008, Paul Hardy learned of Qianqian Fang's work.  Qianqian
+encouraged a combining of effort, and Paul Hardy at that point created
+two versions of the GNU Unifont: one with the original Chinese ideographs
+(which Roman Czyborra copied from a Japanese font in the public domain),
+and one with Qianqian Fang's Wen Quan Yi (Spring of Letters) ideographs.
+The Wen Quan Yi font provides far more coverage of CJK ideographs than
+the original Japanese font did, and is of higher quality.
+
+Paul Hardy created a version of both the font with the original CJK
+ideographs from Japan and with CJK ideographs from Wen Quan Yi that
+contained combining circles.  He then wrote a post-processing program
+to remove the combining circles from the final font.
+
+In 2005, Luis Gonzalez Miranda (http://www.lgm.cl) created a set of
+Fontforge scripts and Perl programs.  Paul Hardy modified Luis' software
+in 2008 to cover the full Unicode 5.1 Basic Multilingual Plane range.
+Luis gave Paul Hardy permission to release this modified version under
+the terms of "the GNU General Public License, version 2 or (at your
+option) a later version."
+
+On 4 July 2008, Paul Hardy was looking through all of Roman Czyborra's
+Perl scripts.  One of these, "braille", contained a comment from 2003
+that the original GNU Unifont did not generate its Braille patterns
+(U+2800..U+28FF) correctly.  The modified script fixed that bug.  Paul
+Hardy incorporated the correct Braile glyphs into the 6 July 2008
+release of the GNU Unifont.  All previous versions probably contain
+this Braille bug and should be replaced.
+
+Other notable additions include:
+
+     - Incorporation of CJK glyphs from Qianqian Fang's fonts
+     - Incorporation of Rich Felker's Tibetan glyphs
+     - Replacement of the Hangul Syllables block with a thin stroke font
+       (Roman had mentioned wanting to do this someday on his website)
+     - Addition of circled pencil glyphs for the Private Use Area
+       (suggested as an accpetable rendering in the Unicode 5.0 Standard)
+     - Proper handling of combining characters in the TrueType version
+     - Proper handling of space glyphs in the TrueType version
+
+The hex2bdf script in this release is Roman's original script, not the
+modified version that produced two BDF files (one for 8 pixel wide glyphs
+and another for 16 pixel wide glyphs).  The TrueType font should be used
+in preference to the BDF font, so this is probably a moot point.  Debian
+doesn't even allow BDF fonts to be installed any longer; the Debian Policy
+Manual now states that BDF fonts must be converted to PCF format.  The
+only program that might still benefit from the BDF font is Yudit, which
+works with a single, dual-width unifont.bdf file.
+
+
+BUILDING
+--------
+To make the binaries from the top directory, type
+
+     make
+
+The compiled programs will be in the "./bin" directory.  To make
+and install the binaries and install the man pages, review the
+destination directories in the Makefiles and then type
+
+     make install
+
+To make the fonts, bitmap charts, etc. within the "font" directory,
+install the "bdftopcf" program and FontForge.  Then from the top-level
+directory type
+
+     cd font
+     make
+
+The resulting fonts will be in the "./font/compiled" directory, along
+with bitmap renderings of each glyph before and after the removal of
+combining circle marks.
+
+WARNING: Building the TrueType version of GNU Unifont will require
+anywhere from 256 MByte to 1 GByte of virtual memory, possibly take
+an hour (it takes about 2.5 hours on a Pentium P3 IBM Thinkpad running
+Debian Etch), and can require almost 250 Megabytes of free disk space
+during the build.  During the TrueType build, FontForge will monopolize
+your CPU...plan accordingly.
+
+There is no reason to build the font from scratch unless you modify
+the .hex font source files (or must satisfy an insatiable curiosity),
+because the "./font/precompiled" directory already contains pre-built
+BDF, PCF, and TrueType fonts.
+
+If you've made a new version of the font, hand-copy the new font
+file(s) to your desired destination.  Otherwise, precompiled PCF
+and TrueType versions of the font will be copied "./font/precompiled/"
+into $(DESTDIR)/usr/share/fonts.
+
+After font installation, you might need to restart the X Window System
+for the new fonts to be recognized, but first try the command
+
+     xset fp rehash
+
+in a shell (terminal) window.  If that doesn't work, restart the X
+Window System.
+
+Building the fonts will not overwrite the "./font/precompiled" directory.
+So if you start building the TrueType font and then have second thoughts,
+there's no harm in interrupting the font build.  You can always fall
+back on what's in "./font/precompiled".
+
+To remove intermediate files, from the top-level directory type
+
+     make clean
+
+To remove all created files and leave the directory in its pre-build
+state, from the top-level directory type
+
+     make distclean
+
+That will remove the ./bin directory, the ./font/compiled directory,
+and other intermediate files.
+
+
+OPEN ISSUES
+-----------
+* Should we try to extend it to ligatures and other complex language 
+support? Robert Brady's extensions to BDF mean that we could
+productively extend unifont to do that, and the extensions would be
+usable with GTK 2.0.  Now that there is a TrueType version, full
+support of complex scripts is within the realm of possibility.
+
+* Some CJK ideographs use an entire 16x16 pixel grid.  This leaves
+insufficient space between lines.  However, changing to a non-square
+grid would distort the block drawing glyphs.  The best solution is
+probalby to use GNU Unifont for mostly non-CJK glyph rendering, and
+to use Qianqian Fang's Wen Quan Yi fonts (http://wenq.org) for
+predominately CJK glyph rendering.  The Wen Quan Yi fonts use extra
+leading (blank space) between lines.
+
+* The arrows from 21E6 to 21F0 should be redesigned to look the same, as
+far as possible within the Unifont's constraints.
+
+* Review Mathematical Symbols and Box Drawing Symbols so they look good
+  combined with each other as intended.

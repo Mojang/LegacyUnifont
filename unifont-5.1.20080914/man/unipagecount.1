@@ -1,0 +1,57 @@
+.TH UNIPAGECOUNT 1 "2007 Dec 31"
+.SH NAME
+unipagecount \- Count the assigned code points in a GNU Unifont .hex file
+.SH SYNOPSIS
+.br
+.B unipagecount
+[-ppagenum] [-h|-l]
+.SH DESCRIPTION
+.B unipagecount
+reads a GNU Unifont .hex file from stdin and prints a 16 by 16 grid of the
+number of defined code points in each 256 character block to stdout.
+Code points proceed from left to right, then top to bottom.
+.PP
+.SH OPTIONS
+.TP 12
+.TP
+-ppagenum
+Just print information on one 256 code point "page" rather than
+the entire Basic Multilingual Plane.  This prints a 16 by 16 table with
+an asterisk in every code point that has an assigned glyph.
+.TP
+-h
+Print an HTML table with color-coded cell background colors
+instead of a plain text table.
+.TP
+-l
+[The letter "l" ]: Print hyperlink to font bitmaps in the HTML table.
+To create the bitmaps themselves, use the unihex2bmp program.
+The bitmaps are assumed to be in the directory "bmp/".
+.SH FILES
+.TP 15
+*.hex GNU Unifont font files
+.SH SEE ALSO
+.BR bdfimplode (1),
+.BR hex2bdf (1),
+.BR hex2bdf-split (1),
+.BR hex2sfd (1),
+.BR hexbraille (1),
+.BR hexdraw (1),
+.BR hexmerge (1),
+.BR johab2ucs2 (1),
+.BR unibmp2hex (1),
+.BR unicoverage (1),
+.BR unidup (1),
+.BR unihex2bmp (1),
+.BR uniunmask (1)
+.SH AUTHOR
+.B unipagecount
+was written by Paul Hardy.
+.SH LICENSE
+.B unipagecount
+is Copyright \(co 2007 Paul Hardy, and is released under version 2 of
+the GNU General Public License, or (at your option) a later version.
+.SH BUGS
+No known real bugs exist, except that this software does not perform
+extensive error checking on its input files.  If they're not in the
+format of the original GNU Unifont hex file, all bets are off.

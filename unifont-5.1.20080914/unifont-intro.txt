@@ -1,0 +1,460 @@
+
+INTRODUCTION
+------------
+This document describes the process of using the GNU Unifont utilities
+to create a font.  The steps described in "Using Graphical Tools" are
+more or less the steps that I (Paul Hardy) followed to add thousands
+of glyphs to the GNU Unifont, except that I didn't have the luxury of
+just typing "make" to make a new font while adding those glyphs.
+
+I streamlined the font build process after I was done drawing the
+Unicode 5.1 glyphs.
+
+I know that plain ASCII text is *so* last millenium, especially for
+a package related to Unicode.  Yet ASCII can be read with anything;
+hence this format.
+
+DISCLAIMER: Donald Knuth warned in his Metafont book that if someone
+started designing type, they would never again be able to look at
+a page of text normally and just read its content.  There is a
+point of no return beyond which a serious font designer begins
+looking at how individual letters in a font on a page are drawn,
+and how they might be improved.  Be warned!
+
+
+-- Paul Hardy <unifoundry@unifoundry.com>  July 2008
+
+
+UNICODE
+-------
+Unicode is an international standard to encode all the world's
+scripts with one universal scheme.  Unicode is the default encoding
+for web pages and is gaining popularity in many other applications.
+To learn more about Unicode, look at code charts, and see the
+latest developments, check out
+
+     http://unicode.org
+
+The GNU Unifont follows the Unicode encoding scheme.  Unicode
+defines the numeric value of a character, but does not define
+one particular font.  There can be (and are) many fonts that
+support a subset of Unifont characters.
+
+In 1998, Roman Czyborra observed that there was still no font,
+free or commercial, with complete Unicode coverage.  He envisioned
+a low-quality bitmapped font as an easy way to produce a font
+that covered much of the Unifont standard.
+
+
+GNU UNIFONT STRUCTURE
+---------------------
+The GNU Unifont is a dual-width pixel font.  Roman Czyborra
+began this font in 1998 with a goal of having one glyph
+rendered for each visible character in the Unicode Basic
+Multilingual Plane (Plane 0, the first 65,536 characters).
+His original writing on this is at http://czyborra.com/unifont/,
+but as of this writing (July 2008) the website has been down
+for a while.
+
+(Note that the term "character" is used very loosely here for
+simplicity; the Unicode Standard has a stricter definition
+of what constitutes a character.)
+
+The font is dual-width.  Each character is 16 pixels tall, and
+either 8 or 16 pixels wide.  The characters are stored in a
+unique .hex file format invented by Roman Czyborra as a convenient
+way of giving each character exactly a one line specification.
+
+
+HEX FILE FORMAT
+---------------
+By convention, files containing the GNU Unifont native font format
+have the extension ".hex".  Their format is extremely simple, consisting
+of two fields separated with a colon (":") and ending with a newline.
+
+The first field is the Unicode code point, in hexadecimal.  This is
+a four digit hexadecimal number for all Plane 0 fonts.  Hexadecimal
+digits are (in order) 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E,
+and F.  The Unicode Standard uses a hexadecimal number to assign
+each character a location.  These locations are called "code points"
+and their range is 0 through 10FFFF, inclusive.
+
+The range 0 through FFFF, inclusive, is called the Basic Multilingual
+Plane (BMP), or Plane 0.  This plane contains most characters used by
+all modern scripts of the world.
+
+Because the original goal of the GNU Unifont was to cover the entire
+Unicode Basic Multilingual Plane, a four digit hexadecimal number
+suffices.  In the future, I plan to allow the utilities to go beyond
+the BMP now that coverage of the Unicode BMP is finally complete.
+
+The C programs allow up to an eight digit hexadecimal code point,
+but not all the utilities have been thoroughly tested beyond the BMP.
+
+The second field is a string of hexadecimal digits.  There are 32
+digits for a character that is 8 pixels wide, and 64 digits for a
+character that is 16 pixels wide.
+
+The good news is you don't have to worry about these long digit
+strings.  Roman Czyborra wrote a utility, "hexdraw", to convert
+.hex fonts to a form that can be edited with a plain text editor,
+then converted back into .hex format.
+
+Paul Hardy wrote two utilities to do the same thing except with
+bitmapped graphics images for editing with a graphics editor:
+"hex2bmp" converts a block of 256 characters into a graphics
+file, and "bmp2hex" converts such a graphics file back into
+.hex format.  These bitmaps display the 256 characters in a block
+arranged in a 16 by 16 character grid.
+
+
+USING GRAPHICAL TOOLS
+---------------------
+Let's use an example.  Suppose you want to modify the Coptic letters
+in the range U+2C80..U+2CFF ("U+" is Unicode shorthand).  These
+letters are in the upper half of the block U+2C00..U+2CFF.  The
+Unicode utilities in this package refer to this as "page" 2C.
+("Page" is not a Unicode term -- it is just a term unique to this
+package to refer to a block of 256 code points/characters).
+
+So the tasks will be:
+
+     1) Convert .hex version of the page 2C range as a 16 by 16
+        bitmapped grid.
+     2) Modify the bitmap in any graphics editor, being careful
+        to re-save it as a Windows Bitmap (.bmp) or Wireless
+        Bitmap file when finished.
+     3) Convert the modified bitmap back into a .hex font file.
+     4) Merge the results with the original unifont.hex file.
+     5) Run "unidup" on the resulting file to guard against
+        duplicate character definitions.
+     6) Create the new bitmapped version of the font.
+     7) Check the compiled font for duplicates.
+     8) If there are duplicates, remove them and go back to
+        Step 5.
+     9) Create the new TrueType version or other versions of the font.
+
+Step 1: Convert the .hex range into a bitmap grid.
+        Assuming our font file is named "unifont.hex", type
+
+             unihex2bmp -p2C -f <unifont.hex >uni2C.bmp
+
+        Using the "-f" flag will flip the grid so the glyphs
+        appear ordered the way they are in the Unicode Standard
+        and all Unicode code charts, running from top to bottom,
+        left to right.  (If this isn't clear, create two bitmaps,
+        one created with the "-f" option and one without and
+        compare the results.)  In the future this "flipped" order
+        might become the normal order, but the software has been
+        well tested the way it is now and a change would require
+        more testing.
+
+Step 2: Modify uni2C.bmp with your favorite graphics editor.
+
+Step 3: Convert the edited .bmp file back into .hex format:
+
+             unibmp2hex <uni2C.bmp >uni2C.hex
+
+        Note that "unibmp2hex" will automagically detect whether
+        or not a bitmap is flipped, so there is no need for a
+        "-f" flag.
+
+Step 4: Merge the results with the original "unifont.hex" file.
+        This requires several sub-steps:
+
+        - Edit the original "unifont.hex" file and delete the
+          lines that begin with "2C".
+        - Insert the "uni2C.hex" file into "unifont.hex", either
+          with a text editor such as vi or emacs, or with a
+          Unix command such as:
+
+               cat uni2C.hex unifont.hex | sort >new-unifont.hex
+
+          This second option (using "sort") is preferred, because
+          "unidup" (in Step 5) might miss duplicate code points
+          if your final result isn't in proper order.
+
+Step 5: Make sure there are no duplicates with "unidup":
+
+             unidup < unifont.hex
+
+        or
+
+             unidup < new-unifont.hex
+
+        depending on the name of your final font file.  If there
+        is no output, your modified font contains no duplicates.
+
+        This editing is best done on an input .hex file, such as
+        "rc-base.hex" (Roman Czyborra's base glyphs).  If this
+        editing is done on a final file (one of the .hex files
+        in the font/compiled directory), the checkered boxes
+        representing unassigned code points must be erased before
+        converting the .bmp file back into .hex.  Otherwise, 
+        duplicates will be created in the new compiled font
+        that will be created in the font/compiled directory.
+
+Step 6: Create the new bitmapped version of the font.  In the
+        font/ directory, type
+
+             make hex
+
+Step 7: Check the compiled font for duplicates.  Change to the
+        font/compiled directory and run
+
+             unidup < mynewfontfile.hex
+
+        for whatever font file you created.
+
+Step 8: If there are duplicates, remove them in the font/ directory
+        and go back to Step 5.
+
+Step 9: Create the new TrueType version of the font and all other
+        bitmapped versions.  From the font/ directory, type
+
+             make distclean && make
+
+        Then be prepared to wait a loooong time.  On a modern Pentium
+        processor, this can take an hour, consume at least 256 Megabytes
+        of virtual memory (RAM), and consume just under 250 Megabytes
+        of disk space, so plan accordingly.
+
+        To only create a BDF font, in the font/ directory just type
+
+             make bdf
+
+        To only create a BDF and PCF font, in the font/ directory type
+
+             make pcf
+
+        Creating a BDF font is the first step in creating a PCF font.
+        BDF fonts can be created just with the tools in this package.
+        PCF fonts are created by running "bdftopcf" on the BDF font.
+        TrueType fonts require FontForge.
+
+
+USING HEXDRAW
+-------------
+Roman Czyborra's original utility to edit glyphs is the "hexdraw"
+Perl script.  Using the same script as above, Coptic, here are the
+steps for modifying "unifont.hex" using "hexdraw".
+
+First, realize that the GNU Unifont has tens of thousands of glyphs
+(characters, using the term character loosely).  In this example,
+out of the tens of thousands of glyphs, we want to modify the range
+U+2C80..U+2CFF (only 128 glyphs).
+
+The range U+2C80..U+2CFF could be extracted from unifont.hex by
+using the "grep" utility to look for lines beginning with "2C8"
+through "2CF", or that range could be isolated by copying "unifont.hex"
+into another file, and deleting all lines except the desired range.
+
+The following steps will probably minimize typographical errors,
+but they aren't the only way.
+
+     1) "grep" the desired block of 256 glyphs and convert them
+        into a text representation for editing.
+     2) Edit the block with a text editor, such as vi or emacs.
+     3) Convert the edited text file back into .hex format.
+     4) Delete the edited block range from the original font file.
+     5) Merge the two .hex files into one file.
+     6) Check for duplicates with "unidup".
+     7) Generate new fonts as described in the Using Graphical
+        Tools section.
+
+Step 1: Extract the desired block with grep:
+
+             grep "^2C" unifont.hex | hexdraw > uni2C.txt
+
+Step 2: Edit "uni2C.txt" with a text editor.
+
+Step 3: Convert the text file back into .hex format:
+
+             hexdraw < uni2C.txt > uni2C.hex
+
+Step 4: Delete the lines in the original "unifont.hex" file that
+        begin with "2C".
+
+Step 5: Merge the two files:
+
+             cat unifont.hex uni2C.hex | sort > new-unifont.hex
+
+        or use Roman's "hexmerge" utility:
+
+             hexmerge unifont.hex uni2C.hex > new-unifont.hex
+
+Step 6: Check for duplicates:
+
+             unidup < new-unifont.hex
+
+         Of course, remove any reported duplicates.
+
+Step 7: Build the font as in the Using Graphical Tools section.
+        This can be as simple as typing
+
+             make
+
+         in the font/ directory.
+
+I (Paul Hardy) had only used hexdraw in the very beginning of my
+work on the GNU Unifont.  Once I got my graphics programs working,
+I ignored it for months.  Then I wanted to go through all of the
+Yi Syllables and Yi Radicals -- over 1000 characters -- to fine-tune
+their horizontal alignment after I drew them.  hexdraw turned out
+to be the perfect tool for this.  By printing hyphens ("-") as
+place holders where a pixel is off, it allowed me to verify space
+to the left and right of each character.
+
+
+CHECKING COVERAGE
+-----------------
+There should never be duplicates in a .hex file.  If there are, remove
+them before the .hex font is turned into a .bdf or other font.  The
+notes above include making liberal use of "unidup" to avoid such a
+situation.
+
+The "unipagecount" program will print a hexadecimal number of code
+points that have coverage within each 256 code point block.  The
+hexadecimal number will therefore range from 0 (no coverage) to
+100 (= 256 decimal; full coverage).  If a number is ever more than
+100 hexadecimal, there's an extra character (glyph) for that page.
+
+To further look at the coverage within just one 256 code point
+page (using page 2C, with Coptic, as our example) use
+
+     unipagecount -p2C < unifont.hex
+
+Note that the "page number" can use upper- or lower-case letters:
+"-p2C" or "-p2c" will both work.  That will print a 16 x 16 grid
+of U+2C00..U+2CFF.
+
+Using the "-l" flag with "unipagecount" will produce an HTML
+table with links to corresponding graphics images (see how
+this works in the "./font/compiled" directory after running
+"make").  The background color of the cells will range from
+red (for 0% complete in that 256 code point block) to orange
+(a little coverage) to yellow (more coverage) to green
+(complete coverage).  If a cell looks light red or pink,
+the corresponding code page might accidentally have duplicate
+characters.  Verify that with "unidup".
+
+To see the coverage of each Unicode script, copy the file (from
+the top level directory) "./dat/coverage.dat" into the same
+directory as the "unifont.hex" file you're examining.  Then run
+
+     unicoverage < unifont.hex > coverage.out
+
+This will give you all the scripts within the Unicode Basic
+Multilingual Plane, in order, with a percentage (0.0% through
+100.0%) of each script's coverage.
+
+
+INSTALLING FONTS ON UNIX/LINUX
+------------------------------
+Compress PCF fonts using "gzip -9 fontname.pcf".  Copy the resulting
+"fontname.pcf.gz" file to /usr/share/fonts/X11/misc/ or place in a
+local font directory if your windowing software supports that (for
+example, ~/.fonts/).
+
+Copy TrueType fonts to /usr/share/fonts/truetype uncompressed or place
+in your local font directory.  Note: on some versions of Unix, such as
+Solaris, the name of the TrueType directory might be TrueType and
+might be under /usr/share/fonts/X11 -- examine the system fonts
+directories, then modify the font "make install" rule accordingly.
+
+On most flavors of Linux with the latest "xset" utility (including
+the latest Debian and Red Hat), the following command should allow
+you to start using the font immediately:
+
+     xset fp rehash
+
+The safest way to make sure the system knows about the new fonts will
+be to restart the X Window System or even reboot.
+
+
+INSTALLING FONTS ON MICROSOFT WINDOWS
+-------------------------------------
+Copy the TrueType (*.ttf) font into your C:\WINDOWS\Fonts folder.
+
+
+INSTALLING FONTS ON MACS
+------------------------
+Copy the TrueType (*.ttf) font into the fonts folder in the Finder
+folder.
+
+
+CREATING A BRAND NEW FONT
+-------------------------
+These tools will only produce glyphs that are 16 pixels tall, and
+8 or 16 pixels wide.  This current release is furthermore only fully
+tested over the Unicode Basic Multilingual Plane (code points from
+0000 through FFFF, with none above that range -- this will change
+in the future).  The tools can be used to create and manipulate
+any bitmapped font within those constraints.
+
+To create a brand new font (or even to add a new script to the GNU
+Unifont in the future), plan out the basic dimensions of the characters:
+
+     - How far above the lowest pixel will the baseline appear (in
+       other words, how many rows are necessary for descenders)?
+     - How many pixels must be left on top and bottom for accents
+       (in other words, what will the height of capital letters be)?
+     - Must glyphs be centered, left-aligned, or right-aligned?
+     - For a Latin font, what will the "x-height" be (the height
+       of a lower-case "x" and related letters, such as "n" and "r")?
+
+Look over the entire script and plan out a grid that is consistent
+for the entire script.
+
+GNU Unifont characters for the most part leave the right-most column
+of pixels blank if possible for right-to-left scripts.  Centering is
+done around the fourth pixel (if a glyph is eight pixels wide) or
+around the eighth pixel (if a glyph is 16 pixels wide).
+
+Consistent cap heights, x-heights, descender depths, and centering
+will produce a better looking font.
+
+Experimenting and (above all) having fun with these utilities is
+the best way to learn.
+
+
+UPDATES TO UNICODE
+------------------
+The Unicode Standard is under constant update.  Unicode 5.1,
+the basis for this release of the GNU Unifont package, was
+released in April 2008.  At the time of its release, new
+character and script additions were already being planned.
+
+Many of these additions are planned for the  Unicode Basic
+Multilingual Plane (the range covered by the current release
+of the GNU Unifont).
+
+If a currently unused code point is assigned to a character
+in the future, the font can be updated as follows:
+
+     1) Delete the code point's entry from "blanks.hex",
+        as that code point will no longer have a blank
+        filler glyph.
+     2) Determine which existing .hex file should have the
+        newly defined character:
+
+           - rc-base.hex contains most scripts
+           - rc-cjk.hex and wqy-cjk.hex contain most ideographs;
+             their ranges are the same
+           - rc-hangul.hex contains the Hangul Syllables block
+
+     3) Update the appropriate .hex file.  If the new character
+        is in a range covered by rc-cjk.hex and wqy-cjk.hex,
+        add the new character to both files.
+     4) Consider if "./dat/coverage.dat" has to be updated.
+        Follow its existing format to insert a new script,
+        being sure to change any previously unassigned ranges
+        to reflect the new script.
+     5) Make a new .hex version of the font, and verify that
+        you didn't introduce any duplicates.
+     6) Run "unipagecount" and/or "unicoverage" and verify
+        that you have not mistakenly deleted any existing
+        characters.
+
+Enjoy!
+

@@ -1,0 +1,59 @@
+.TH UNIUNMASK 1 "2008 Jul 6"
+.SH NAME
+uniunmask \- XOR bits or substitute glyphs in a GNU Unifont file.
+.SH SYNOPSIS
+.br
+.B uniunmask
+[-iinput_file] [-ooutput_file]
+.SH DESCRIPTION
+.B uniunmask
+reads a GNU Unifont .hex file.  As it reads the font file, it scans
+for code points matching entries in the "masks.hex" and "substitutes.hex"
+files.  "masks.hex" and "substitutes.hex" are also in GNU Unifont .hex
+format, ordered by Unicode code point (the hexadecimal number to the
+left of the colon on each line).
+.PP
+If a code point is encountered from "substitutes.hex", the input code
+point in the original .hex file is ignored (as is any entry with the
+same code point in "masks.hex") and the glyph from "substitutes.hex"
+is written to the output file.
+.PP
+Otherwise, if a code point is encountered from "masks.hex", the input
+glyph in the original .hex file is XORed with the bits in the "masks.hex"
+entry.  The result of this XOR operation is written to the output file.
+.PP
+.SH OPTIONS
+.TP 12
+-i
+Specify the input file. The default is stdin.
+.TP
+-o
+Specify the output file. The default is stdout.
+.SH FILES
+.TP 15
+masks.hex, substitutes.hex, *.hex GNU Unifont font files
+.SH SEE ALSO
+.BR bdfimplode (1),
+.BR hex2bdf (1),
+.BR hex2bdf-split (1),
+.BR hex2sfd (1),
+.BR hexbraille (1),
+.BR hexdraw (1),
+.BR hexmerge (1),
+.BR johab2ucs2 (1),
+.BR unibmp2hex (1),
+.BR unicoverage (1),
+.BR unidup (1),
+.BR unihex2bmp (1),
+.BR unipagecount (1)
+.SH AUTHOR
+.B uniunmask
+was written by Paul Hardy.
+.SH LICENSE
+.B uniunmask
+is Copyright \(co 2007 Paul Hardy, and is released under version 2 of
+the GNU General Public License, or (at your option) a later version.
+.SH BUGS
+No known real bugs exist, except that this software does not perform
+extensive error checking on its input files.  If they're not in the
+format of the original GNU Unifont hex file, all bets are off.

@@ -1,0 +1,39 @@
+.TH UNIDUP 1 "2007 Dec 31"
+.SH NAME
+unidup \- Scan through a sorted .hex file and report duplicate code points.
+.SH SYNOPSIS
+.br
+.B unidup < input_font.hex
+.SH DESCRIPTION
+.B unidup
+reads a sorted GNU Unifont .hex file (sorted with the Unix
+.B sort
+utility) from stdin and prints notification
+of any duplicate code points on stdout.
+.PP
+.SH FILES
+.TP 15
+*.hex GNU Unifont font files
+.SH SEE ALSO
+.BR bdfimplode (1),
+.BR hex2bdf (1),
+.BR hex2bdf-split (1),
+.BR hex2sfd (1),
+.BR hexbraille (1),
+.BR hexdraw (1),
+.BR hexmerge (1),
+.BR johab2ucs2 (1),
+.BR unibmp2hex (1),
+.BR unicoverage (1),
+.BR unihex2bmp (1),
+.BR unipagecount (1),
+.BR uniunmask (1)
+.SH AUTHOR
+.B unidup
+was written by Paul Hardy.
+.SH LICENSE
+.B unidup
+is Copyright \(co 2007 Paul Hardy, and is released under version 2 of
+the GNU General Public License, or (at your option) a later version.
+.SH BUGS
+No known bugs exist.

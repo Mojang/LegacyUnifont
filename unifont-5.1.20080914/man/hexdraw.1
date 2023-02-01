@@ -1,0 +1,46 @@
+.TH HEXDRAW 1 "2008 Jul 06"
+.SH NAME
+hexdraw \- Convert a GNU Unifont .hex file to and from an ASCII text file.
+.SH SYNOPSIS
+.br
+.B hexdraw < input_font.hex > output_font.txt
+.br
+.B hexdraw < input_font.txt > output_font.hex
+.SH DESCRIPTION
+.B hexdraw
+reads a sorted GNU Unifont .hex file from stdin and writes a two
+dimensional ASCII art rendering for each glyph to stdout.  The
+output file can be edited with any text editor, then converted
+back into a .hex file.
+.PP
+.SH FILES
+.TP 15
+*.hex GNU Unifont font files
+.SH SEE ALSO
+.BR bdfimplode (1),
+.BR hex2bdf (1),
+.BR hex2bdf-split (1),
+.BR hex2sfd (1),
+.BR hexbraille (1),
+.BR hexmerge (1),
+.BR johab2ucs2 (1),
+.BR unibmp2hex (1),
+.BR unicoverage (1),
+.BR unidup (1),
+.BR unihex2bmp (1),
+.BR unipagecount (1),
+.BR uniunmask (1)
+.SH AUTHOR
+.B hexdraw
+was written by Roman Czyborra.
+.SH LICENSE
+.B hexdraw
+is Copyright \(co 1998 Roman Czyborra, and is released under the following
+terms (taken from http://czyborra.com):
+.PP
+"All of my works you find here are freeware. You may freely copy, use, quote,
+modify or redistribute them as long as you properly attribute my contribution
+and have given a quick thought about whether Roman might perhaps be interested
+to read what you did with his stuff. Horizontal rules don't apply."
+.SH BUGS
+No known bugs exist.

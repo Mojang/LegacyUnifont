@@ -1,0 +1,51 @@
+.TH UNICOVERAGE 1 "2007 Dec 31"
+.SH NAME
+unicoverage \- Print coverage of each Unicode BMP Script.
+.SH SYNOPSIS
+.br
+.B unicoverage
+[-iinput_file] [-ooutput_file]
+.SH DESCRIPTION
+.B unicoverage
+reads a GNU Unifont .hex font and uses data in
+.B coverage.dat
+(which must reside in the current directory).  The output is
+the percent coverage of each script in the Unicode Basic Multilingual Plane.
+.PP
+.SH OPTIONS
+.TP 12
+-i
+Specify the input file. The default is stdin.
+.TP
+-o
+Specify the output file. The default is stdout.
+Sample usage:
+.PP
+unicoverage < unifont.hex >coverage.txt
+.SH FILES
+.TP 15
+coverage.dat, *.hex GNU Unifont files.
+.SH SEE ALSO
+.BR bdfimplode (1),
+.BR hex2bdf (1),
+.BR hex2bdf-split (1),
+.BR hex2sfd (1),
+.BR hexbraille (1),
+.BR hexdraw (1),
+.BR hexmerge (1),
+.BR johab2ucs2 (1),
+.BR unibmp2hex (1),
+.BR unidup (1),
+.BR unihex2bmp (1),
+.BR unipagecount (1),
+.BR uniunmask (1)
+.SH AUTHOR
+.B unicoverage
+was written by Paul Hardy.
+.SH LICENSE
+.B unicoverage
+is Copyright \(co 2007, 2008 Paul Hardy, and is released under version 2 of
+the GNU General Public License, or (at your option) a later version.
+.SH BUGS
+No known real bugs exist, except that this software does not perform
+extensive error checking on its input files.

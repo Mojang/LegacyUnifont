@@ -1,0 +1,21 @@
+Files:
+
+The following files are used to construct other
+GNU Unifont formats (BDF, PCF, TrueType):
+
+combining.dat   - Zero-width (combining) code points, one per line
+
+unifontfull.hex - Unifont with combining circles, noncharacter
+                  graphics, etc.
+
+unifont.hex     - Unifont with combining circles, etc., removed
+                  (use this version for ordinary text rendering)
+
+The *.hex files are in Roman Czyborra's .hex format, with one
+glyph per line.  For more information, see the unifont source
+package or
+
+     http://unifoundry.com/unifont.html
+
+
+Paul Hardy, 2008
